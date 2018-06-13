@@ -19,3 +19,4 @@ export const setName = (state = initialState, action: AnyAction) => {
     return state;
   }
 }
+

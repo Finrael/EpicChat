@@ -1,21 +1,22 @@
 import { connect } from 'react-redux';
 import { IMyStore } from '../../redux/reducers';
 import * as React from 'react';
-import LFU from '../dashboardComponents/lookForContacts';
+// import LFU from '../dashboardComponents/lookForContacts';
 import MainHub from '../mainHubComponents/mainHub';
-import { setName } from '../../redux/actions';
+import { setProfile } from '../../redux/actions';
 
 // import { Link } from 'react-router-dom';
 interface IReDashboard {
     value: string;
     response: any;
-    username: string;
+    name: string;
     email: string;
 
 }
 interface IProps {
     name: string;
-    setName: (name: string) => void
+    setName: (name: string) => void;
+    setProfile:(name:string, email:string)=> Promise<void>;
 }
 class ReDashboard extends React.Component<IProps, IReDashboard>{
     constructor(props: any) {
@@ -23,7 +24,7 @@ class ReDashboard extends React.Component<IProps, IReDashboard>{
         this.state = {
             value: '',
             response: '',
-            username: '',
+            name: '',
             email: '',
         };
     }
@@ -48,17 +49,35 @@ class ReDashboard extends React.Component<IProps, IReDashboard>{
     }//////////////////
 
     public onChange = ({currentTarget}: React.ChangeEvent<HTMLInputElement>) => {
-        this.props.setName(currentTarget.value);
+        // this.props.setProfile(currentTarget.value, 'placeholder for Email');
+    }
+    public getProfile (){
+         this.props.setProfile('placeholder name', 'placeholder email')
+         .then(()=>{
+             console.log('done');
+         });
+ //        console.log('name from the store: ', this.props.name)
     }
     // this.confirmAuth.catch((err:any)=> {console.log('error', err)})
+    public componentDidMount() {
+        this.getProfile();
+      }
+      public checkProfile(){
+        if (this.props.name !==''){
+            return <MainHub/>
+        }else{
+        return <p/>}
+      }
     public render() {
 
         return (
             <div className="RegisterMain">
-                <MainHub />
-                <LFU />
-                <div>Store value: {this.props.name}</div>
-                <input value={this.props.name} onChange={this.onChange} />
+            
+                {this.checkProfile()}
+                {/* <LFU /> */}
+               
+                {/* <div>Store value: {this.props.name}</div> */}
+                {/* <input value={this.props.name} onChange={this.onChange} /> */}
                 {/* <button onClick={this.confirmAuth} className="inputButton">input</button> */}
 
             </div >
@@ -66,4 +85,4 @@ class ReDashboard extends React.Component<IProps, IReDashboard>{
     }
 }
 
-export default connect((Store: IMyStore) => ({ name: Store.setName.name }), { setName })(ReDashboard);
+export default connect((Store: IMyStore) => ({ name: Store.setProfile.name, email: Store.setProfile.email }), { setProfile })(ReDashboard);

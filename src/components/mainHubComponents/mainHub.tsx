@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { IMyStore } from '../../redux/reducers';
+import { setProfile } from '../../redux/actions';
 // import { Link } from 'react-router-dom';
 interface Imain {
     value: string;
@@ -7,7 +10,11 @@ interface Imain {
     email: string;
     id:string;
   }
-class MainHub extends React.Component <{}, Imain>{
+  interface Iprops{
+      username:string,
+      email:string,
+  }
+class MainHub extends React.Component <Iprops, Imain>{
     constructor(props: any) {
         super(props);
         this.state = {
@@ -19,7 +26,7 @@ class MainHub extends React.Component <{}, Imain>{
         };
     }
     public componentDidMount() {
-        this.getData();
+        // this.getData();
       }
     public getData=async()=>{
         const response = await fetch('/api/authenticate',{
@@ -35,12 +42,13 @@ class MainHub extends React.Component <{}, Imain>{
         return (
             <div className="RegisterMain">
                 <label>Welcome </label>
-               <label> Username: {this.state.username}</label>
-               <label> Email: {this.state.email}</label>
-               <label> ID:{this.state.id}</label>
+               <label> Username: {this.props.username}</label>
+               <label> Email: {this.props.email}</label>
+               {/* <label> ID:{this.state.id}</label> */}
+               {/* <label>from the store: {this.props.username}</label> */}
             </div>
         );
     }
 }
-
-export default MainHub;
+export default connect((Store: IMyStore) => ({ username: Store.setProfile.name, email: Store.setProfile.email }), {setProfile})(MainHub);
+// export default MainHub;

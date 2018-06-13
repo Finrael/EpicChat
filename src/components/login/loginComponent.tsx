@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { Redirect } from 'react-router';
 interface ILogin {
   value: string;
   response: any;
   email: string;
   password: string;
   unauthorized: boolean;
+  logged: boolean;
 }
 
 class Login extends React.Component<{}, ILogin>{
@@ -15,7 +17,8 @@ class Login extends React.Component<{}, ILogin>{
       response: '',
       email: '',
       password: '',
-      unauthorized: false
+      unauthorized: false,
+      logged: false,
     };
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -35,6 +38,10 @@ class Login extends React.Component<{}, ILogin>{
     // debugger;
     if (response.status !== 200) {return this.setState({unauthorized: true}) }
     const body = await response.json();
+    // console.log('this is the body',body)
+    if (this.state.unauthorized===false){
+      this.setState({logged:true});
+    }
     return body;
   }
   public componentDidMount() {
@@ -58,6 +65,9 @@ class Login extends React.Component<{}, ILogin>{
     this.setState({ password: event.target.value });
   }
   public render() {
+    if (this.state.logged===true){
+      return <Redirect to='/dashboard'/>
+    }
     return (
       <div className="loginMain">
         <form onSubmit={this.onSubmit}>
