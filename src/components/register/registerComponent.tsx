@@ -1,11 +1,13 @@
 import * as React from 'react';
+// import { Redirect } from 'react-router';
 interface IRegister {
     value: string;
     response: any;
     username: string;
     email: string;
     password: string;
-    passwordConfirm: string
+    passwordConfirm: string;
+    registerSuccess: boolean;
 }
 
 class Register extends React.Component<{}, IRegister>{
@@ -17,7 +19,8 @@ class Register extends React.Component<{}, IRegister>{
             username: '',
             email: '',
             password: '',
-            passwordConfirm: ''
+            passwordConfirm: '',
+            registerSuccess: false
         };
         this.handleChangeUser = this.handleChangeUser.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -34,9 +37,14 @@ class Register extends React.Component<{}, IRegister>{
                     }),
                 headers: { 'Content-Type': 'application/json' }
             });
-        const body = await response.json();
-        if (response.status !== 200) { throw Error(body.message); }
-        return body;
+        // const body = await response.json();
+        if (response.status !== 200) { throw Error('error'); }
+        // else{
+        //     this.setState({registerSuccess:true});
+        // }
+    
+        // console.log(this.state.registerSuccess)
+        // return body;
     }
     public componentDidMount() {
         // this.callApi()
@@ -44,13 +52,13 @@ class Register extends React.Component<{}, IRegister>{
         //     .catch(err => console.log(err));
 
     }
-    public callApi = async () => {
-        const response = await fetch('/api/getRegister');
+    // public callApi = async () => {
+    //     const response = await fetch('/api/getRegister');
         
-        const body = await response.json();
-        if (response.status !== 200) { throw Error(body.message); }
-        return body;
-    };
+    //     const body = await response.json();
+    //     if (response.status !== 200) { throw Error(body.message); }
+    //     return body;
+    // };
 
     // function to stablish state.username
     public handleChangeUser = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,14 +76,25 @@ class Register extends React.Component<{}, IRegister>{
     public handleChangePasswordConfirm = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ passwordConfirm: event.target.value });
     }
-    public confirmPassword = () => {
+    public confirmPassword = (e:React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         if ((this.state.password !== '') && (this.state.passwordConfirm !== '') && (this.state.password === this.state.passwordConfirm)) {
             this.inputName();
         } else {
             alert('Password and confirmation are not equal')
         }
+        // this.redirectToLogin();
+    }
+    public redirectToLogin(){
+        console.log(this.state.registerSuccess)
+    //     if (this.state.registerSuccess===true){
+    //         return <Redirect to='/logIn'/>}
+    //         else {
+    //           return  console.log('error')
+    //         }
     }
     public render() {
+        
         return (
             <div className="RegisterMain">
                 <form>
@@ -85,9 +104,9 @@ class Register extends React.Component<{}, IRegister>{
                     <label>email:</label>
                     <input className='inputEmail' onChange={this.handleChangeEmail} value={this.state.email} type='text' />
                     <label>password:</label>
-                    <input className='inputPassword' onChange={this.handleChangePassword} value={this.state.password} type='text' />
+                    <input className='inputPassword' onChange={this.handleChangePassword} value={this.state.password} type='password' />
                     <label> Confirm password:</label>
-                    <input className='inputPasswordConfirm' onChange={this.handleChangePasswordConfirm} value={this.state.passwordConfirm} type='text' />
+                    <input className='inputPasswordConfirm' onChange={this.handleChangePasswordConfirm} value={this.state.passwordConfirm} type='password' />
                     <button onClick={this.confirmPassword} className="inputButton">input</button>
                 </form>
             </div>
