@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
+import './loginComponent.css';
 interface ILogin {
   value: string;
   response: any;
@@ -49,13 +50,14 @@ class Login extends React.Component<{}, ILogin>{
     //   .then(res => this.setState({ response: res.express }))
     //   .catch(err => console.log(err));
   }
-  public callApi = async () => {
-    const response = await fetch('/api/logIn');
-    const body = await response.json();
-    sessionStorage.setItem('jwtToken', body.password)
-    if (response.status !== 200) { throw Error(body.message); }
-    return body;
-  };
+ 
+  // public callApi = async () => {
+  //   const response = await fetch('/api/logIn');
+  //   const body = await response.json();
+  //   sessionStorage.setItem('jwtToken', body.password)
+  //   if (response.status !== 200) { throw Error(body.message); }
+  //   return body;
+  // };
   // function to stablish state.email
   public handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ email: event.target.value });
@@ -70,15 +72,14 @@ class Login extends React.Component<{}, ILogin>{
     }
     return (
       <div className="loginMain">
-        <form onSubmit={this.onSubmit}>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
+        <form onSubmit={this.onSubmit} className='loginForm'>
           <p className="App-intro">{this.state.response}</p>
           <div>
-          <label>email:</label>
-          <input className='inputEmail' onChange={this.handleChangeEmail} value={this.state.email} type='text' />
+          <input className="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1"onChange={this.handleChangeEmail} value={this.state.email} type='text' />
           </div>
           <div>
-          <label>password:</label>
-          <input className='inputPassword' onChange={this.handleChangePassword} value={this.state.password} type='text' />
+          <input  className="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChangePassword} value={this.state.password} type='password' />
           </div>
           <button type="submit" className="inputButton">input</button>
           {

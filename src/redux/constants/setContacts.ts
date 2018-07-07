@@ -1,0 +1,1 @@
+export const SET_CONTACTS:string = 'SET_CONTACTS';

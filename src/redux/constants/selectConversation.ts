@@ -1,0 +1,1 @@
+export const SELECT_CONVERSATION:string = 'SELECT_CONVERSATION';
