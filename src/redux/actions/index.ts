@@ -2,7 +2,10 @@
 import { SET_NAME } from '../constants/setName';
 import { SET_PROFILE } from '../constants/setProfile';
 // import { SET_CONTACTS } from '../constants/setContacts';
-import {SET_SELECTED_CONTACT} from '../constants/setSelectedContact';
+import { SET_SELECTED_CONTACT } from '../constants/setSelectedContact';
+import { Dispatch } from 'react-redux';
+import { GET_AVAILABLE_CONTACTS, MESSAGE, GET_MESSAGE } from '../constants';
+
 // import { Dispatch } from 'react-redux';
 // import {} from '../constants/setName';
 
@@ -25,28 +28,69 @@ export const setProfile = () => {
 // vewrsion 2 of setContacts
 export const setContacts = (SelectedConversation: string) => {
     console.log("ActionSetContacts", SelectedConversation)
- return  { type: SET_SELECTED_CONTACT, payload:  SelectedConversation }
+    return { type: SET_SELECTED_CONTACT, payload: SelectedConversation }
 };
+interface Ibody  {
+    contacts: Icontacts[]
+    , _id: string
+}
+interface Icontacts {
+        _id: string,
+        contact: {
+            _id: string,
+            username: string,
+            email: string,
+        },
+        conversationId: string
+}
+export const getAvailableContacts = () => {
+    return async (dispatch: Dispatch) => {
+        const response = await fetch('api/getAvailableContacts', {
+            method: 'get',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        });
 
-// version 1 of setContacts
-// export const setContacts = () => {
-//     return (dispatch: any) => {
-//         console.log('sending request from setContacts');
-//         fetch('/api/getContactsForList', {
-//             credentials: 'include'
-//         }).then(res => {
-            
-//         //  const info:string= JSON.stringify( res.body)
-//             console.log('res from the setContacts:', res)
-//             return res.json()
-//         }).then(res=>{
-//              dispatch({type:SET_CONTACTS, payload:{ contacts:[...res.contacts]}})
-//             console.log(res)
-            
-//         })
-//         // const body =  response.json();
+        const body:Ibody= await response.json();
+        const convID = body.contacts.map(({ contact: { _id, username, email }, conversationId }) => ({
+            _id, username, email, conversationId
+        }))
+        console.log('convID', convID);
+        dispatch({ type: GET_AVAILABLE_CONTACTS, payload:  convID  });
+        return convID;
+    }
+    
+}
 
-//         //  console.log(body)
-//     }
 
-// }
+export const message=(textMessage:string, convId:string)=>{
+return async(dispatch:Dispatch) =>{
+    const response = await fetch('/api/message', {
+        method: 'post',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body:JSON.stringify({textMessage, convId})
+    });
+console.log('its in', textMessage)
+    const body= await response.json();
+    console.log(body)
+    dispatch({ type: MESSAGE, payload:  body  });
+    // return convID;
+
+}
+}
+
+export const getMessages=(convId: string)=>{
+    return async (dispatch:Dispatch)=>{
+        const response = await fetch('/api/getMessages', {
+            method: 'post',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body:JSON.stringify({convId})
+        });
+        // console.log('it is on getMessages', convId);
+        const body=await response.json();
+        // console.log(body)
+        dispatch({type:GET_MESSAGE, payload:body})
+    }
+}

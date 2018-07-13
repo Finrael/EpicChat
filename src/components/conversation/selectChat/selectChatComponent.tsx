@@ -1,22 +1,33 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IMyStore } from '../../../redux/reducers';
-import { setProfile, setContacts } from '../../../redux/actions';
+import { setProfile, getAvailableContacts } from '../../../redux/actions';
 import {Link} from 'react-router-dom'
 // import { selectConversation } from '../../../redux/reducers/selectConversation';
 
 interface ISelect {
     selectedConversation: string;
     availableContacts: string[];
-
+    
 }
 interface IProps {
     name: string;
     email: string;
-    contacts: string[];
+    // contacts: string[];
     selectedConversation:string;
-    setContacts: (contacts: string) => void;
+    availableContacts:IAvailableContacts
+    // setContacts: (contacts: string) => void;
     setProfile: () => Promise<void>;
+    getAvailableContacts:()=>void;
+
+}
+interface IAvailableContacts{
+    contacts:Array<{
+        _id:string,
+        username:string,
+        email:string,
+        conversationId:string
+    }>
 }
 class Select extends React.Component<IProps, ISelect>{
     constructor(props: any) {
@@ -28,44 +39,26 @@ class Select extends React.Component<IProps, ISelect>{
     }
     public fetchAvailable = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const response = await fetch('/api/getAvailableContacts', {
-            method: 'post',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' }
-        });
-
-        const body = await response.json();
-        console.log('body', body.contacts[0].conversationId.participants);
-        let participantsArray:Array<{_id:string, participant:{_id:string, username:string},joinedDate:Date, status:number}>=[];
-        participantsArray = body.contacts[0].conversationId.participants;
-        console.log(participantsArray[0].participant)
-        // const optionsArray: string[] = [];
-        // for (let i = 0; participantsArray.length > i; i++) {
-
-        //     optionsArray.push(participantsArray[i].participant)
-        // }
-        // // console.log('options Array',optionsArray);
-        // this.setState({ availableContacts: optionsArray })
-        // // if (optionsArray.length > 0) {
-        // //     this.setState({ selectedConversation: optionsArray[0] });
-        // // }
-
-        return body;
+        await this.props.getAvailableContacts();
+        console.log('props: ',this.props.availableContacts, 'end props')
+        const options: IAvailableContacts = this.props.availableContacts;
+        // const optionItems: any = [];
+console.log('from options', options.contacts[0].conversationId)
     }
     public setSelectedOption = (e: any) => {
         e.preventDefault();
         console.log('target',e.target)
          this.props.setProfile()
-        console.log('props: ',this.props, 'end props')
+       
         // this.setState({ selectedConversation: e.target.value })
     }
     public render() {
-        const options: string[] = this.state.availableContacts;
+        const options: IAvailableContacts = this.props.availableContacts;
         const optionItems: any = [];
         // optionItems.push(<option key= 'select' value='' >select 1 option</option>)
-        for (let i = 0; options.length > i; i++) {
+        for (let i = 0; options.contacts.length > i; i++) {
 
-            optionItems.push(<Link to={'/chat/'+options[i]} > <li key={options[i]} value={options[i]} className='dropdown-item' >{options[i]}</li></Link>)
+            optionItems.push(<Link to={'/chat/'+options.contacts[i].conversationId} > <li key={options.contacts[i]._id} value={options.contacts[i]._id} className='dropdown-item' >{options.contacts[i].email}</li></Link>)
         }
         return (
             <div>
@@ -88,5 +81,6 @@ export default connect((Store: IMyStore) => ({
     contacts: Store.setProfile.contacts,
     name: Store.setProfile.name,
     email: Store.setProfile.email,
-    selectedConversation:Store.selectConversation
-}),{ setProfile, setContacts})(Select)
+    selectedConversation:Store.selectConversation,
+    availableContacts:Store.getAvailableContacts,
+}),{ setProfile,getAvailableContacts })(Select)

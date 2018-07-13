@@ -1,0 +1,1 @@
+export const GET_AVAILABLE_CONTACTS:string = 'GET_AVAILABLE_CONTACTS';

@@ -23,7 +23,7 @@ class App extends React.Component {
               <Route path='/register' component={Register} />
               <Route path='/dashboard' component={Dashboard} />
               <Route path='/mainHub' component={MainHub} />
-              <Route path='/chat' component={Chat} />
+              <Route path='/chat/:id?' component={Chat} />
               <Route path='/conversation' component={GetAvailablecontacts} />
             </div>
             <Receiver />
