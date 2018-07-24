@@ -1,4 +1,4 @@
-import {IState, ISelectedConversation, IgetAvailableContacts, IMessages, IGetMessages} from './stateTypes';
+import {IState, ISelectedConversation, IgetAvailableContacts, IMessages, IGetMessages, IHandleConversations, IConversations} from './stateTypes';
 export const initialState:IState = {
     name: '',
     email: '',
@@ -19,6 +19,18 @@ export const initialMessage:IMessages={
 }
 
 export const initialGetMessages:IGetMessages={
-  messageList:[],
-  conversationId:''
+  conversations:{}
+}
+
+// TODO probably should not be used
+export const initialConversations:IConversations={
+  participants:[],
+  creationTime:new Date(),
+  messageList: []
+}
+
+
+// TODO not needed
+export const initialHandleConversations:IHandleConversations={
+  conversations:{}
 }

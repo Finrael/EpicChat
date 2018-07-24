@@ -1,0 +1,1 @@
+export const UPDATE_CONVERSATION:string = 'UPDATE_CONVERSATION';

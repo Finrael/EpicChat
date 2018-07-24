@@ -4,7 +4,8 @@ import * as React from 'react';
 import LFU from '../dashboardComponents/lookForContacts';
 import MainHub from '../mainHubComponents/mainHub';
 import { setProfile } from '../../redux/actions';
-
+import { HOC, ISocketProps } from '../utility/HOCDash';
+import { sm } from '../../Socket';
 // import { Link } from 'react-router-dom';
 interface IReDashboard {
     value: string;
@@ -13,11 +14,12 @@ interface IReDashboard {
     email: string;
 
 }
-interface IProps {
+interface IProps extends ISocketProps {
     name: string;
     setName: (name: string) => void;
     setProfile: () => Promise<void>;
 }
+
 class ReDashboard extends React.Component<IProps, IReDashboard>{
     constructor(props: any) {
         super(props);
@@ -55,42 +57,52 @@ class ReDashboard extends React.Component<IProps, IReDashboard>{
         this.props.setProfile()
             .then(() => {
                 console.log('done');
+                sm.connect();
             });
         //        console.log('name from the store: ', this.props.name)
     }
-    // this.confirmAuth.catch((err:any)=> {console.log('error', err)})
-    // public getProfileContacts(){
-    //     this.props.setProfile('','').then(()=>{
-    //         console.log('contactsTEST:' , this.props.name)
-    //     });
-    // }
-   
+
 
     public componentDidMount() {
-    this.getProfile();
-}
-      public checkProfile(){
-    if (this.props.name !== '') {
-        return <MainHub />
-    } else {
-        return <p />
+        this.getProfile();
+        // this.connectToSockets();
+        // sm.on('connect', ()=>{
+        // sm.connect('',()=>{})
+        // sm.emit('something here opn the emmit')
+        // console.log('this is connecteds')
+        // });
     }
-}
+    public checkProfile() {
+        if (this.props.name !== '') {
+            return <MainHub />
+        } else {
+            return <p />
+        }
+    }
+    public connectToSockets=async()=>{
+        const response = await fetch('/connectSockets', {
+            credentials: 'include'
+        });
+       await response.json();
+        try {
+            if (response.status !== 200) { throw Error('body.message'); }
+        } catch (error) {
+            console.log(error)
+        }
+
+        // console.log(body);
+        // return body;
+    }
     public render() {
 
-    return (
-        <div className="RegisterMain">
+        return (
+            <div className="RegisterMain">
 
-            {this.checkProfile()}
-            <LFU />
-
-            {/* <div>Store value: {this.props.name}</div> */}
-            {/* <input value={this.props.name} onChange={this.onChange} /> */}
-            {/* <button onClick={this.getContactsForList} className="inputButton">inputDash</button> */}
-
-        </div >
-    );
-}
+                {this.checkProfile()}
+                <LFU />
+            </div >
+        );
+    }
 }
 
-export default connect((Store: IMyStore) => ({ name: Store.setProfile.name, email: Store.setProfile.email, contacts: Store.setProfile.contacts }), { setProfile })(ReDashboard);
+export default connect((Store: IMyStore) => ({ name: Store.setProfile.name, email: Store.setProfile.email, contacts: Store.setProfile.contacts }), { setProfile })(HOC(ReDashboard));

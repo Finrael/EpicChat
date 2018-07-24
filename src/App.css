@@ -1,5 +1,7 @@
 .App {
   text-align: left;
+  /* float: left; */
+  /* display: block; */
 }
 
 .App-logo {
@@ -26,5 +28,12 @@
   to { transform: rotate(360deg); }
 }
 .componentPlaceholder{
-  display: block;
+  /* display: flex; */
+ float:right;
+  width: 60%;
+  /* background-color: black; */
+}
+.UpperHolder{
+  /* float: right; */
+  display: flex
 }

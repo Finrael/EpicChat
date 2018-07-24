@@ -1,0 +1,1 @@
+export const HANDLE_CONVERSATION:string = 'HANDLE_CONVERSATION';

@@ -18,6 +18,9 @@ class App extends React.Component {
             <header className="App-header">
               <h1 className="App-title">Welcome to Epic Chat</h1>
             </header>
+            <div className='UpperHolder'>
+          
+            <Receiver />
             <div className='componentPlaceholder'>
               <Route path='/login' component={Login} />
               <Route path='/register' component={Register} />
@@ -26,7 +29,7 @@ class App extends React.Component {
               <Route path='/chat/:id?' component={Chat} />
               <Route path='/conversation' component={GetAvailablecontacts} />
             </div>
-            <Receiver />
+          </div>
           </div>
         </BrowserRouter>
 

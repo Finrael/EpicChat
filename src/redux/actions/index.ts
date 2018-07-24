@@ -4,13 +4,11 @@ import { SET_PROFILE } from '../constants/setProfile';
 // import { SET_CONTACTS } from '../constants/setContacts';
 import { SET_SELECTED_CONTACT } from '../constants/setSelectedContact';
 import { Dispatch } from 'react-redux';
-import { GET_AVAILABLE_CONTACTS, MESSAGE, GET_MESSAGE } from '../constants';
+import { GET_AVAILABLE_CONTACTS, MESSAGE, GET_MESSAGE, HANDLE_CONVERSATION, GET_CONVERSATION,UPDATE_CONVERSATION } from '../constants';
 
-// import { Dispatch } from 'react-redux';
-// import {} from '../constants/setName';
-
+// add the name of the user to the redux
 export const setName = (name: any) => ({ type: SET_NAME, payload: { name } });
-// export const setProfile = (name:any, email:any) => ({ type: SET_PROFILE, payload: {name, email} });
+// creates the user profile
 export const setProfile = () => {
     return async (dispatch: any) => {
         console.log('sending request');
@@ -25,9 +23,9 @@ export const setProfile = () => {
         dispatch({ type: SET_PROFILE, payload: { name: body.username, email: body.email, contacts: body.contacts } });
     }
 }
-// vewrsion 2 of setContacts
+// vewrsion 2 of setContacts  just adds the selected conversation
 export const setContacts = (SelectedConversation: string) => {
-    console.log("ActionSetContacts", SelectedConversation)
+    // console.log("ActionSetContacts", SelectedConversation)
     return { type: SET_SELECTED_CONTACT, payload: SelectedConversation }
 };
 interface Ibody  {
@@ -55,7 +53,7 @@ export const getAvailableContacts = () => {
         const convID = body.contacts.map(({ contact: { _id, username, email }, conversationId }) => ({
             _id, username, email, conversationId
         }))
-        console.log('convID', convID);
+        // console.log('convID', convID);
         dispatch({ type: GET_AVAILABLE_CONTACTS, payload:  convID  });
         return convID;
     }
@@ -73,7 +71,7 @@ return async(dispatch:Dispatch) =>{
     });
 console.log('its in', textMessage)
     const body= await response.json();
-    console.log(body)
+    // console.log(body)
     dispatch({ type: MESSAGE, payload:  body  });
     // return convID;
 
@@ -89,8 +87,34 @@ export const getMessages=(convId: string)=>{
             body:JSON.stringify({convId})
         });
         // console.log('it is on getMessages', convId);
-        const body=await response.json();
-        // console.log(body)
-        dispatch({type:GET_MESSAGE, payload:body})
+        const msgs=await response.json();
+   
+        dispatch({type:GET_MESSAGE, payload:{convId, msgs}})
+    }
+}
+
+
+export const getConversation=(convId: string) => {
+    return async (dispatch: Dispatch) =>{
+        const response = await fetch('/api/getConversation', {
+            method: 'post',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body:JSON.stringify({convId})
+        });
+
+        const convData = await response.json();
+     console.log(convData)
+        dispatch({type: GET_CONVERSATION, payload:{convId, convData}});
+    }
+}
+export const handleConversations=(convId:string)=>{
+    return async (dispatch:Dispatch)=>{
+        dispatch({type:HANDLE_CONVERSATION, payload:convId})
+    }
+}
+export const updateConversation=(convId:string)=>{
+    return async (dispatch:Dispatch)=>{
+        dispatch({type:UPDATE_CONVERSATION, payload:convId})
     }
 }

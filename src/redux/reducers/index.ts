@@ -6,7 +6,8 @@ import thunk from 'redux-thunk';
 import { selectConversation } from './selectConversation';
 import { getAvailableContacts} from './getAvailableContacts'
 import {message} from './messageReducer'
-import {getMessages} from './getMessagesReducer'
+import {getMessages} from './getMessagesReducer';
+// import {handleConversation} from './handleConversationReducer'
 
 // import { setSelectedConversation } from '../actions';
 // import { SET_CONTACTS } from '../constants';
@@ -18,6 +19,7 @@ export interface IMyStore {
     getAvailableContacts:IgetAvailableContacts,
     message:IMessages,
     getMessages:IGetMessages,
+    // handleConversation:IHandleConversations
     // setContacts:
 }
 declare const window :{__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :typeof compose}

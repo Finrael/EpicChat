@@ -8,7 +8,7 @@
 }
 
 .navigationList li a {
-  display: block;
+  display: flex;
   color: #000;
   padding: 8px 16px;
   text-decoration: none;
@@ -31,4 +31,11 @@
 .navigationList li a:hover:not(.active) {
   background-color: #555;
   color: white;
+}
+
+.mainReceiver{
+/* background-color: #4CAF50; */
+/* width: 20%; */
+display: flex;
+/* float: left; */
 }
