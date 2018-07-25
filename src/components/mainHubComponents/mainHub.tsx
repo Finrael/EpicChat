@@ -81,7 +81,7 @@ class MainHub extends React.Component<Iprops, Imain>{
                 <label> Username: {this.props.username}</label>
                 <label> Email: {this.props.email}</label>
                 {/* <label> Contacts: {this.props.contacts}</label> */}
-                 <button onClick={this.checkfor} className="inputButton">checkfor</button>
+                 {/* <button onClick={this.checkfor} className="inputButton">checkfor</button> */}
                 <div id='search'>
                     <select onChange={this.setSelectedOption}>
                         {optionItems}

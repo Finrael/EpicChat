@@ -43,12 +43,12 @@ interface Icontacts {
 }
 export const getAvailableContacts = () => {
     return async (dispatch: Dispatch) => {
-        const response = await fetch('api/getAvailableContacts', {
+        const response = await fetch('/api/getAvailableContacts', {
             method: 'get',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
         });
-
+console.log(response)
         const body:Ibody= await response.json();
         const convID = body.contacts.map(({ contact: { _id, username, email }, conversationId }) => ({
             _id, username, email, conversationId

@@ -57,7 +57,7 @@ console.log('from options', options.contacts[0].conversationId)
         e.preventDefault();
         // console.log('bjoa')
         this.props.handleConversations(e.target.value)
-        const auxString: string =  '/chat/'+e.target.value;
+        const auxString: string =  '/dashboard/chat/'+e.target.value;
         return  <Redirect to={auxString}/>
     }
     public render() {
@@ -66,7 +66,7 @@ console.log('from options', options.contacts[0].conversationId)
         // optionItems.push(<option key= 'select' value='' >select 1 option</option>)
         for (let i = 0; options.contacts.length > i; i++) {
 
-            optionItems.push(<Link to={'/chat/'+options.contacts[i].conversationId} > <li key={options.contacts[i]._id} value={options.contacts[i]._id} className='dropdown-item' >{options.contacts[i].email}</li></Link>)
+            optionItems.push(<Link to={'/dashboard/chat/'+options.contacts[i].conversationId} > <li key={options.contacts[i]._id} value={options.contacts[i]._id} className='dropdown-item' >{options.contacts[i].email}</li></Link>)
         }
 
         return (

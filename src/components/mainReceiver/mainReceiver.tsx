@@ -24,7 +24,10 @@ class Register extends React.Component {
                             <Link to={`/dashboard`} className='col'>Dashboard</Link>
                         </li>
                         <li>
-                            <Link to={`/conversation`} className='col'>Conversation</Link>
+                            <Link to={`/dashboard/conversation`} className='col'>Conversation</Link>
+                        </li>
+                        <li>
+                            <Link to={`/dashboard/LFU`} className='col'>Add Contacts</Link>
                         </li>
                     </ul>
                     {/* <button onClick={} className="inputButton">Register</button> */}

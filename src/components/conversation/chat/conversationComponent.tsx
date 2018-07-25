@@ -121,18 +121,22 @@ try{
     <div key={m.messageTime.toString()}> {m.messageOriginator.name}:{m.messageText} </div>
 ))
 }catch{
-    return console.log('error')
+    return []
+
 }
 }
     public render() {
         sm.emit('ss');
+        const msgs = this.printMessages();
         return (
            
             <div className="RegisterMain">
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
 
                 {/* <textarea defaultValue='messages'/> */}
-                    {this.printMessages()}
+                <div className="mainchat">
+                    {msgs}
+                    </div>
                 <div className="input-group mb-3">
                     <div className="input-group-prepend">
                         <button className="btn btn-outline-secondary" type="button" onClick={this.sendMessage}>Send</button>

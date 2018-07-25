@@ -1,6 +1,7 @@
 import { AnyAction } from "redux";
 import { GET_MESSAGE, GET_CONVERSATION } from '../constants';
 import { initialGetMessages } from '../types/initialState';
+// import { message } from "../actions";
 
 export const getMessages = (state = initialGetMessages, action: AnyAction) => {
   // console.log('from reducer ',action.payload)
@@ -37,6 +38,22 @@ export const getMessages = (state = initialGetMessages, action: AnyAction) => {
           [convId]: conversation
         }
       };
+    }
+    case 'NEW_MESSAGE':{
+      const msg = action.payload;
+      const conversation= state.conversations[msg.conversationId]
+      if (conversation===undefined){return state}
+      console.log(msg.conversationId)
+      return {
+        ...state, 
+        conversations:{
+          ...state.conversations,
+          [msg.conversationId]: {
+            ...conversation,
+            messageList:[...conversation.messageList,msg]
+          }
+        }
+      }
     }
     default:
       return state;

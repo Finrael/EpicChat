@@ -1,11 +1,15 @@
 import { connect } from 'react-redux';
 import { IMyStore } from '../../redux/reducers';
+import {  Route } from 'react-router-dom';
 import * as React from 'react';
 import LFU from '../dashboardComponents/lookForContacts';
 import MainHub from '../mainHubComponents/mainHub';
 import { setProfile } from '../../redux/actions';
 import { HOC, ISocketProps } from '../utility/HOCDash';
 import { sm } from '../../Socket';
+import Register from '../../components/register/registerComponent';
+import Chat from '../../components/conversation/chat/conversationComponent';
+import GetAvailablecontacts  from '../../components/conversation/selectChat/selectChatComponent'
 // import { Link } from 'react-router-dom';
 interface IReDashboard {
     value: string;
@@ -64,7 +68,9 @@ class ReDashboard extends React.Component<IProps, IReDashboard>{
 
 
     public componentDidMount() {
+      
         this.getProfile();
+      
         // this.connectToSockets();
         // sm.on('connect', ()=>{
         // sm.connect('',()=>{})
@@ -96,11 +102,24 @@ class ReDashboard extends React.Component<IProps, IReDashboard>{
     public render() {
 
         return (
+            <div>
             <div className="RegisterMain">
 
-                {this.checkProfile()}
-                <LFU />
+                {/* {this.checkProfile()} */}
+                
+                {/* <LFU /> */}
+
             </div >
+     
+             <div className='componentPlaceholder'>
+             <Route path='/dashboard/LFU' component={LFU}/>
+             <Route path='/register' component={Register} />
+             <Route path='/mainHub' component={MainHub} />
+             <Route path='/dashboard/chat/:id?' component={Chat} />
+             <Route path='/dashboard/conversation' component={GetAvailablecontacts} />
+           </div>
+     
+           </div>
         );
     }
 }
