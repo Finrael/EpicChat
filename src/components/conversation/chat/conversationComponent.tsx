@@ -6,41 +6,21 @@ import { connect } from 'react-redux';
 import {RouteComponentProps} from 'react-router'
 import {sm}  from '../../../Socket'
 import { IConversations } from '../../../redux/types/stateTypes';
-// import {get} from 'lodash'
+
 interface Imessage {
     conversationId: string;
     messageText: string,
     messageList:Array<{
     }>
-    // messagesToShow:string[]
-    // message: (messageText: string) => void;
 }
 interface Iprops extends RouteComponentProps<{id:string}>{
     message:(messageText:string, convId:string)=>void,
     getMessages:(convId:string)=>void,
-    // messageList:ImessageType[],
     getConversation:(convId:string)=>Promise<void>,
     conversation:IConversations;
-    // messageText: string,
-    // messageTime: Date,
-    // messageOriginator: { _Id: string, name: string },
-    // conversationId: string,
+
 }
-// interface IMessageList{
-//     messageList:ImessageType[]
-//     conversationId: string,
-// }
-// interface ImessageType{
-//     messageText: string,
-//     messageTime: Date,
-//     messageOriginator: { _Id: string, name: string },
-//     conversationId: string,
-//     _id:string,
-// }
-// interface Itmessages{
-//     '5b4cdfba6a7f6b3364d54ee6':{},
-//     conversationId:{}
-// }
+
 class Conversation extends React.Component< Iprops, Imessage>{
     constructor(props:Iprops) {
         super(props);
@@ -48,8 +28,6 @@ class Conversation extends React.Component< Iprops, Imessage>{
             conversationId: '',
            messageText:'',
            messageList:[]
-        //    messagesToShow:[]
-            // message:('')=>void
         };
         
     }
@@ -58,38 +36,20 @@ public sendMessage=(e: React.MouseEvent<HTMLButtonElement>)=>{
     // console.log('no empty')
     this.props.message(this.state.messageText, this.state.conversationId)
     this.printMessages();
-    // this.props.getMessages(this.state.conversationId);
 }
 public componentDidMount() {
-    // console.log(this.props.match.params.id)
     this.setState({conversationId: this.props.match.params.id})
-    // this.props.getMessages(this.props.match.params.id);
     const convId= this.props.match.params.id
     this.props.getConversation(convId).then(()=>{
         this.props.getMessages(convId);
     });
     
 }
-// public componentWillReceiveProps(newProps:Iprops){
-// if (newProps.conversation===undefined){
-//     const convId= this.props.match.params.id
-//     this.props.getConversation(convId).then(()=>{
-//         this.props.getMessages(convId);
-//     });
-// }
-// }
+
 public handleChangeMessage = (event:React.ChangeEvent<HTMLInputElement>)=>{
     this.setState({messageText:event.target.value})
-    // console.log(this.state.messageText)
 }
 public GETMessages=async()=>{
-    // console.log(this.state.conversationId)
-    
-        //   const messages=   await  this.props.getMessages(this.state.conversationId);
-        //    this.props.getMessages;
-        //   console.log(this.props.messageList)
-        // const options:any = []
-        // console.log('list of messages:', this.props.conversation)
         this.setMessagesOnScreen()
 }
 
@@ -101,17 +61,7 @@ public setMessagesOnScreen=async()=>{
         return messages.messageList.map(m=>(
         <div key={m.conversationId}> {m.messageOriginator.name}:{m.messageText} </div>
     ))
-    // console.log('form messages messagelist',messages.messageList.messageList)
-    // console.log('form messages messagelist',messages.messageList)
-    // const messageDepure:string[] = [];
-    // for (let i =0; messages.length>i;i++){
-    //     messageDepure.push(
-    //     'From:'+messages[i].messageOriginator.name+
-    //     ' '+messages[i].messageText)
-    // }
 
-//   await  this.setState({messagesToShow:messageDepure})
-//   console.log(this.state.messagesToShow)
 } 
 public printMessages=()=>{
 try{
@@ -149,14 +99,7 @@ try{
     } 
 }
 export default connect<{},{},{},IMyStore>((Store, props: Iprops)=>({
-    // messageText:Store.message.messageText,
-    // messageTime:Store.message.messageTime,
-    // messageOriginator:Store.message.messageOriginator,
-    // messageList:Store.getMessages.conversations,
+
     conversation:Store.getMessages.conversations[props.match.params.id],
     
 }),{message, getMessages, getConversation})(Conversation)
-
-// thids to high order
-
-// export default Conversation;

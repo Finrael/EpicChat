@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import {setName, IState as ISetName} from './setName';
 import {setProfile} from './profileReducer';
-import { IState as ISetProfile, ISelectedConversation, IgetAvailableContacts, IMessages, IGetMessages} from '../types/stateTypes';
+import { IState as ISetProfile, ISelectedConversation, IgetAvailableContacts, IMessages, IGetMessages, } from '../types/stateTypes';
 import thunk from 'redux-thunk';
 import { selectConversation } from './selectConversation';
 import { getAvailableContacts} from './getAvailableContacts'

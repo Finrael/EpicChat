@@ -1,4 +1,5 @@
-import {IState, ISelectedConversation, IgetAvailableContacts, IMessages, IGetMessages, IHandleConversations, IConversations} from './stateTypes';
+import {IState, ISelectedConversation, IgetAvailableContacts, IMessages,
+   IGetMessages, IHandleConversations, IConversations, ILanguageState} from './stateTypes';
 export const initialState:IState = {
     name: '',
     email: '',
@@ -34,3 +35,7 @@ export const initialConversations:IConversations={
 export const initialHandleConversations:IHandleConversations={
   conversations:{}
 }
+
+export const initialLanguageState:ILanguageState = {
+  lang: '',
+};

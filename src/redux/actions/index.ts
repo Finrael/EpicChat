@@ -4,7 +4,7 @@ import { SET_PROFILE } from '../constants/setProfile';
 // import { SET_CONTACTS } from '../constants/setContacts';
 import { SET_SELECTED_CONTACT } from '../constants/setSelectedContact';
 import { Dispatch } from 'react-redux';
-import { GET_AVAILABLE_CONTACTS, MESSAGE, GET_MESSAGE, HANDLE_CONVERSATION, GET_CONVERSATION,UPDATE_CONVERSATION } from '../constants';
+import { GET_AVAILABLE_CONTACTS, MESSAGE, GET_MESSAGE, HANDLE_CONVERSATION, GET_CONVERSATION,UPDATE_CONVERSATION, LANGUAGE } from '../constants';
 
 // add the name of the user to the redux
 export const setName = (name: any) => ({ type: SET_NAME, payload: { name } });
@@ -118,3 +118,4 @@ export const updateConversation=(convId:string)=>{
         dispatch({type:UPDATE_CONVERSATION, payload:convId})
     }
 }
+export const setLanguage = (lang: any) => ({ type: LANGUAGE, payload: { lang } });

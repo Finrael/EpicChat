@@ -7,5 +7,6 @@ export * from './message';
 export * from './getMessages';
 export * from './handleConversations';
 export * from './updateConversation';
+export * from './language';
 // export SET_NAME;
 

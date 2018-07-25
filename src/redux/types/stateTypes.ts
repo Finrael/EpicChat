@@ -43,3 +43,6 @@ export interface IConversations {
 export interface IHandleConversations {
   conversations: {[convId:string]: IConversations};
 }
+export interface ILanguageState{
+  lang:string,
+}

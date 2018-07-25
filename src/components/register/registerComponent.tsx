@@ -9,6 +9,7 @@ interface IRegister {
     password: string;
     passwordConfirm: string;
     registerSuccess: boolean;
+    language:string;
 }
 
 class Register extends React.Component<{}, IRegister>{
@@ -21,7 +22,8 @@ class Register extends React.Component<{}, IRegister>{
             email: '',
             password: '',
             passwordConfirm: '',
-            registerSuccess: false
+            registerSuccess: false,
+            language:'en'
         };
         this.handleChangeUser = this.handleChangeUser.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
