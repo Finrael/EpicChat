@@ -2,6 +2,7 @@
   text-align: left;
   /* float: left; */
   /* display: block; */
+  background-color: blueviolet
 }
 
 .App-logo {
@@ -29,11 +30,15 @@
 }
 .componentPlaceholder{
   /* display: flex; */
- float:right;
-  /* width: 60%; */
+ float:left;
+  width: 60%;
   /* background-color: black; */
 }
 .UpperHolder{
   /* float: right; */
   display: flex
+
+}
+body{
+  background-color:green 
 }

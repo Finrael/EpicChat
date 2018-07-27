@@ -5,6 +5,7 @@ export const initialState:IState = {
     email: '',
     contacts:[],
     selectedContact:'',
+    language:''
   };
 export const initialSelectedConversation: ISelectedConversation ={
   selectedConversation:'',
@@ -37,5 +38,5 @@ export const initialHandleConversations:IHandleConversations={
 }
 
 export const initialLanguageState:ILanguageState = {
-  lang: '',
+  language: '',
 };

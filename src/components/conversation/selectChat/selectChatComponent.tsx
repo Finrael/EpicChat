@@ -4,6 +4,9 @@ import { IMyStore } from '../../../redux/reducers';
 import { setProfile, getAvailableContacts, handleConversations } from '../../../redux/actions';
 import {Link} from 'react-router-dom'
 import { Redirect } from 'react-router';
+import { translate, Trans } from 'react-i18next';
+// import { TransProps } from 'react-i18next/src/trans';
+
 // import { selectConversation } from '../../../redux/reducers/selectConversation';
 
 interface ISelect {
@@ -71,8 +74,8 @@ console.log('from options', options.contacts[0].conversationId)
 
         return (
             <div>
-                <p>Select from the avaialable Contacts </p>
-                <button onClick={this.fetchAvailable}>Search</button>
+                <p><Trans>Select from the avaialable Contacts</Trans></p>
+                <button onClick={this.fetchAvailable}><Trans>Search</Trans></button>
                 {/* <Link to={'/chat/'+{}}>Open Conversation </Link> */}
                 <div id='search'>
                     <ul onClick={this.setSelectedOption} className='dropdown'>
@@ -92,5 +95,6 @@ export default connect((Store: IMyStore) => ({
     email: Store.setProfile.email,
     selectedConversation:Store.selectConversation,
     availableContacts:Store.getAvailableContacts,
+    language: Store.setProfile.language,
     // conversations:Store.handleConversation
-}),{ setProfile,getAvailableContacts, handleConversations })(Select)
+}),{ setProfile,getAvailableContacts, handleConversations })(translate('translations') (Select))

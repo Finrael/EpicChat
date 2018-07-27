@@ -10,6 +10,7 @@ import { sm } from '../../Socket';
 import Register from '../../components/register/registerComponent';
 import Chat from '../../components/conversation/chat/conversationComponent';
 import GetAvailablecontacts  from '../../components/conversation/selectChat/selectChatComponent'
+import SelectLanguage from './selectLanguage';
 // import { Link } from 'react-router-dom';
 interface IReDashboard {
     value: string;
@@ -117,6 +118,7 @@ class ReDashboard extends React.Component<IProps, IReDashboard>{
              <Route path='/mainHub' component={MainHub} />
              <Route path='/dashboard/chat/:id?' component={Chat} />
              <Route path='/dashboard/conversation' component={GetAvailablecontacts} />
+             <Route path='/dashboard/selectLanguage' component={SelectLanguage}/>
            </div>
      
            </div>

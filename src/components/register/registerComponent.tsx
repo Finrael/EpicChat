@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
 import './registerComponent.css';
+import { translate, Trans } from 'react-i18next';
+import { IMyStore } from '../../redux/reducers';
+import { connect} from 'react-redux';
+import { TransProps } from 'react-i18next/src/trans';
+
 interface IRegister {
     value: string;
     response: any;
@@ -9,10 +14,11 @@ interface IRegister {
     password: string;
     passwordConfirm: string;
     registerSuccess: boolean;
-    language:string;
+    language: string;
 }
 
-class Register extends React.Component<{}, IRegister>{
+
+class Register extends React.Component<{} & TransProps, IRegister>{
     constructor(props: any) {
         super(props);
         this.state = {
@@ -23,7 +29,7 @@ class Register extends React.Component<{}, IRegister>{
             password: '',
             passwordConfirm: '',
             registerSuccess: false,
-            language:'en'
+            language: 'en'
         };
         this.handleChangeUser = this.handleChangeUser.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -36,15 +42,15 @@ class Register extends React.Component<{}, IRegister>{
                 method: 'post', body: JSON.stringify(
                     {
                         username: this.state.username, email: this.state.email,
-                        password: this.state.password
+                        password: this.state.password, language: this.state.language
                     }),
                 headers: { 'Content-Type': 'application/json' }
             });
         if (response.status !== 200) { throw Error('error'); }
-        else{
-            this.setState({registerSuccess:true});
+        else {
+            this.setState({ registerSuccess: true });
         }
-    
+
         console.log(this.state.registerSuccess)
     }
     public componentDidMount() {
@@ -55,7 +61,7 @@ class Register extends React.Component<{}, IRegister>{
     }
     // public callApi = async () => {
     //     const response = await fetch('/api/getRegister');
-        
+
     //     const body = await response.json();
     //     if (response.status !== 200) { throw Error(body.message); }
     //     return body;
@@ -77,42 +83,54 @@ class Register extends React.Component<{}, IRegister>{
     public handleChangePasswordConfirm = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ passwordConfirm: event.target.value });
     }
-    public confirmPassword = (e:any) => {
+    public confirmPassword = (e: any) => {
         e.preventDefault();
-        if ((this.state.username !=='') && (this.state.email !=='')){
-        if ((this.state.password !== '') && (this.state.passwordConfirm !== '') && (this.state.password === this.state.passwordConfirm)) {
-            this.inputName();
-            // this.redirectToLogin();
-        } else {
-            alert('Password and confirmation are not equal')
-        }
-    }else {
-        alert('make sure that email and username are valid inputs')
-    }
-    }
-    public redirectToLogin(){
-        console.log('second ', this.state.registerSuccess)
-        if (this.state.registerSuccess===true){
-            return <Redirect to='/logIn'/>}
-            else {
-              return  console.log('error')
+        if ((this.state.username !== '') && (this.state.email !== '')) {
+            if ((this.state.password !== '') && (this.state.passwordConfirm !== '') && (this.state.password === this.state.passwordConfirm)) {
+                this.inputName();
+                // this.redirectToLogin();
+            } else {
+                alert('Password and confirmation are not equal')
             }
+        } else {
+            alert('make sure that email and username are valid inputs')
+        }
+    }
+    public redirectToLogin() {
+        console.log('second ', this.state.registerSuccess)
+        if (this.state.registerSuccess === true) {
+            return <Redirect to='/logIn' />
+        }
+        else {
+            return console.log('error')
+        }
+    }
+    public setSelectedOption = (e: any) => {
+        e.preventDefault();
+        this.setState({ language: e.target.value })
     }
     public render() {
-        if (this.state.registerSuccess===true){
-            return <Redirect to='/logIn'/>
-          }
+        if (this.state.registerSuccess === true) {
+            return <Redirect to='/logIn' />
+        }
+        const { t } = this.props;
         return (
             
             <div className="RegisterMain">
-              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
-                <form onSubmit={this.confirmPassword}  className = 'registerForm'>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
+                <form onSubmit={this.confirmPassword} className='registerForm'>
                     <p className="App-intro">{this.state.response}</p>
-                    <input className="form-control" placeholder="username" aria-label="username" aria-describedby="basic-addon1" onChange={this.handleChangeUser} value={this.state.username} type='text' />
-                    <input className="form-control" placeholder="email" aria-label="email" aria-describedby="basic-addon1" onChange={this.handleChangeEmail} value={this.state.email} type='text' />
-                    <input className="form-control" placeholder="password" aria-label="password" aria-describedby="basic-addon1" onChange={this.handleChangePassword} value={this.state.password} type='password' />
-                    <input className="form-control" placeholder="Confirm password" aria-label="Confirm password" aria-describedby="basic-addon1" onChange={this.handleChangePasswordConfirm} value={this.state.passwordConfirm} type='password' />
-                    <button type="submit" className="inputButton">input</button>
+                    <input className="form-control" placeholder={t!('Username')} aria-label="username" aria-describedby="basic-addon1" onChange={this.handleChangeUser} value={this.state.username} type='text' />
+                    <input className="form-control" placeholder={t!('Email')} aria-label="email" aria-describedby="basic-addon1" onChange={this.handleChangeEmail} value={this.state.email} type='text' />
+                    <input className="form-control" placeholder={t!('Password')} aria-label="password" aria-describedby="basic-addon1" onChange={this.handleChangePassword} value={this.state.password} type='password' />
+                    <input className="form-control" placeholder={t!('Confirm Password')} aria-label="Confirm password" aria-describedby="basic-addon1" onChange={this.handleChangePasswordConfirm} value={this.state.passwordConfirm} type='password' />
+                    <div id='search'>
+                        <select onChange={this.setSelectedOption} className='dropdown'>
+                            <option key='en' value='en' className='dropdown-item' ><Trans>English</Trans></option>
+                            <option key='es' value='es' className='dropdown-item' ><Trans>Espanol</Trans></option>
+                        </select>
+                    </div>
+                    <button type="submit" className="inputButton"><Trans>Save</Trans></button>
                     {/* <button onClick={this.confirmPassword} className="inputButton">input</button> */}
                 </form>
             </div>
@@ -120,4 +138,5 @@ class Register extends React.Component<{}, IRegister>{
     }
 }
 
-export default Register;
+export default connect((store: IMyStore)=>({language: store.setProfile.language}))(translate('translations') (Register));
+// export default Register;

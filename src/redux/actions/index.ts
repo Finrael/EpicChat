@@ -4,7 +4,7 @@ import { SET_PROFILE } from '../constants/setProfile';
 // import { SET_CONTACTS } from '../constants/setContacts';
 import { SET_SELECTED_CONTACT } from '../constants/setSelectedContact';
 import { Dispatch } from 'react-redux';
-import { GET_AVAILABLE_CONTACTS, MESSAGE, GET_MESSAGE, HANDLE_CONVERSATION, GET_CONVERSATION,UPDATE_CONVERSATION, LANGUAGE } from '../constants';
+import { GET_AVAILABLE_CONTACTS, MESSAGE, GET_MESSAGE, HANDLE_CONVERSATION, GET_CONVERSATION,UPDATE_CONVERSATION, SAVE_LANGUAGE } from '../constants';
 
 // add the name of the user to the redux
 export const setName = (name: any) => ({ type: SET_NAME, payload: { name } });
@@ -20,7 +20,7 @@ export const setProfile = () => {
         //  this.setState({email:body.email, username:body.username, id:body._id})
         // console.log(body);'
         console.log(body);
-        dispatch({ type: SET_PROFILE, payload: { name: body.username, email: body.email, contacts: body.contacts } });
+        dispatch({ type: SET_PROFILE, payload: { name: body.username, email: body.email, contacts: body.contacts, language:body.language } });
     }
 }
 // vewrsion 2 of setContacts  just adds the selected conversation
@@ -118,4 +118,15 @@ export const updateConversation=(convId:string)=>{
         dispatch({type:UPDATE_CONVERSATION, payload:convId})
     }
 }
-export const setLanguage = (lang: any) => ({ type: LANGUAGE, payload: { lang } });
+export const setLanguage = (language: string) =>{
+    return async (dispatch:Dispatch)=>{
+        dispatch({type:SAVE_LANGUAGE, payload:language});
+            fetch('/api/setLanguage', {
+            method: 'post',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body:JSON.stringify({language})
+        });
+    
+    }
+}

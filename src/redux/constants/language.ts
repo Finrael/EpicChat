@@ -1,1 +1,1 @@
-export const LANGUAGE:string= 'LANGUAGE'
+export const SAVE_LANGUAGE:string= 'SAVE_LANGUAGE'

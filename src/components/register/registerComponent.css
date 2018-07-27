@@ -1,3 +1,6 @@
 .registerForm{
     width: 30%;
 }
+.form-control{
+width: 200px;
+}

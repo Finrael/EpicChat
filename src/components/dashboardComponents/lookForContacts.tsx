@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { IMyStore } from '../../redux/reducers';
 import { setProfile } from '../../redux/actions';
 import './lookForContacts.css';
+import { translate, Trans } from 'react-i18next';
 // import { FormHTMLAttributes } from 'react';
 interface ILooking {
     value: string;
@@ -139,12 +140,12 @@ class LFC extends React.Component<IProps, ILooking>{
             <div className="LFC">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
                 <form >
-                    <p>Please insert email to look for contacts</p>
+                    <p><Trans>Please insert email to look for contacts</Trans></p>
                     <input className='inputEmail' onChange={this.handleChangeEmailToSearch} value={this.state.emailToLookFor} type='text' />
                     {/* <button type="submit" className="inputButton">Search</button> */}
                 </form>
-                <button onClick={this.fetchOcurrences}>Search</button>
-                <button onClick={this.addContacts}>Add Contact</button>
+                <button onClick={this.fetchOcurrences}><Trans>Search</Trans></button>
+                <button onClick={this.addContacts}><Trans>Add Contact</Trans></button>
                 {/* <button onClick={this.generateMenu}>Show menu</button> */}
                 <div id='search'>
                     <select onChange={this.setSelectedOption} className='dropdown'>
@@ -158,5 +159,7 @@ class LFC extends React.Component<IProps, ILooking>{
     }
 }
 
-export default connect((Store: IMyStore) => ({ username: Store.setProfile.name, email: Store.setProfile.email }), {setProfile})(LFC);
+export default connect((Store: IMyStore) =>
+ ({ username: Store.setProfile.name, email: Store.setProfile.email, language: Store.setProfile.language }),
+  {setProfile})(translate('translations')(LFC));;
 // export default LFC;

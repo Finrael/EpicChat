@@ -3,6 +3,7 @@ export interface IState {
   email: string,
   contacts: Array<{ contactName: string, _id: string }>,
   selectedContact: string,
+  language:string
 }
 
 export interface ISelectedConversation {
@@ -44,5 +45,5 @@ export interface IHandleConversations {
   conversations: {[convId:string]: IConversations};
 }
 export interface ILanguageState{
-  lang:string,
+  language:string,
 }
